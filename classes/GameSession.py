@@ -1,6 +1,7 @@
 import pygame
 from classes.ChessBoard import ChessBoard
-from constants.constants import WIDTH, HEIGHT, FPS
+from classes.pieces.Piece import Piece
+from constants.constants import WIDTH, HEIGHT, FPS, SQUARE_SIZE
 
 class GameSession:
 
@@ -9,6 +10,7 @@ class GameSession:
         clock = pygame.time.Clock()
         chessBoard: ChessBoard = ChessBoard()
         chessBoard.populateBoard()
+        currentPiece = None
 
         while(run):
             clock.tick(FPS)
@@ -17,6 +19,16 @@ class GameSession:
                 if event.type == pygame.QUIT:
                     run = False
                     break
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    y,x = pygame.mouse.get_pos()
+                    x = x // SQUARE_SIZE
+                    y = y // SQUARE_SIZE
+                    selectedPiece = chessBoard.board[x][y]
+                    if currentPiece == None and selectedPiece != -1:
+                        currentPiece = selectedPiece
+                    elif currentPiece != None:
+                        currentPiece.movePiece(x, y, chessBoard.board)
+                        currentPiece = None
             
             chessBoard.drawBoard(self.window)
             chessBoard.drawPieces(self.window)

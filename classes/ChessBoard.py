@@ -24,7 +24,7 @@ class ChessBoard:
     def drawPieces(self, win) -> None:
         for row in self.board:
             for piece in row:
-                if piece != None:
+                if piece != -1:
                     piece.drawPiece(win)
 
     def populateBoard(self) -> None:
@@ -33,11 +33,14 @@ class ChessBoard:
             if row == 0:
                 self.fillBackRank(row, currentRow, isWhite=False)
             elif row == 1:
-                self.fillPawns(row, currentRow, isWhite=False)
+                self.fillPawns(row, currentRow, isWhite=False, isTravelingUpwards=False)
             elif row == ROWS-2:
-                self.fillPawns(row, currentRow, isWhite=True)
+                self.fillPawns(row, currentRow, isWhite=True, isTravelingUpwards=True)
             elif row == ROWS-1:
                 self.fillBackRank(row, currentRow, isWhite=True)
+            else:
+                for _ in range(COLUMNS):
+                    currentRow.append(-1)
             self.board.append(currentRow)
 
     def fillBackRank(self, rowNumber: int, row: list, isWhite: bool) -> None:
@@ -50,8 +53,8 @@ class ChessBoard:
         row.append(Knight(rowNumber, 6, isWhite))
         row.append(Rook(rowNumber, 7, isWhite))
 
-    def fillPawns(self, rowNumber: int, row: list, isWhite: bool) -> None:
+    def fillPawns(self, rowNumber: int, row: list, isWhite: bool, isTravelingUpwards: bool) -> None:
         for i in range(COLUMNS):
-            row.append(Pawn(rowNumber, i, isWhite))
+            row.append(Pawn(rowNumber, i, isWhite, isTravelingUpwards))
 
                 

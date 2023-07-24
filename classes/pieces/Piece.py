@@ -7,8 +7,10 @@ class Piece:
         self.isWhite = isWhite
         self.colour = "whitePieces" if self.isWhite == True else "blackPieces"
 
-    def drawPiece(self, win) -> None:
-        self.x = SQUARE_SIZE * self.col
-        self.y = SQUARE_SIZE * self.row
+    def calcSquareCoords(self, row: int, col: int) -> tuple:
+        x: int = SQUARE_SIZE * col
+        y: int = SQUARE_SIZE * row
+        return (x, y)
 
-        win.blit(self.pieceImg, (self.x, self.y))
+    def drawPiece(self, win) -> None:
+        win.blit(self.pieceImg, self.calcSquareCoords(self.row, self.col))
