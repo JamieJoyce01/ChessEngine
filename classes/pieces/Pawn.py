@@ -7,14 +7,10 @@ class Pawn(Piece):
         super().__init__(row, col, isWhite)
         self.isTravelingUpwards = isTravelingUpwards
         self.firstMove = True
-        self.moveDistance = 2 if self.firstMove else 1 
         imgPath = "assets/" + self.colour + "/pawn.png"
         self.pieceImg = pygame.image.load(imgPath).convert_alpha()
-        
-        if not self.isWhite:
-            self.moveDistance * -1
     
-    def calcAvailableMoves(self, board) -> set((int,int)):
+    def calcAvailableMoves(self, board: list[list[int | Piece]]) -> set((int,int)):
         # Since the calculation happens after we select where we are moving, we cant select off the board
         # so we done have any vertical out of index errors, we only need to cover the diagonal tiles.
         availableMoves = set()
@@ -26,9 +22,9 @@ class Pawn(Piece):
             availableMoves.add((self.row+one, self.col))
         if self.firstMove and board[self.row+two][self.col] == -1:
             availableMoves.add((self.row+two, self.col))
-        if self.col+1 < COLUMNS and board[self.row+one][self.col+1] != -1:
+        if self.col+1 < COLUMNS and board[self.row+one][self.col+1] != -1 and board[self.row+one][self.col+1].isWhite != self.isWhite:
             availableMoves.add((self.row+one, self.col+1))
-        if self.col-1 > 0 and board[self.row+one][self.col-1] != -1:
+        if self.col-1 > 0 and board[self.row+one][self.col-1] != -1 and board[self.row+one][self.col-1].isWhite != self.isWhite:
             availableMoves.add((self.row+one, self.col-1))
 
         return availableMoves
