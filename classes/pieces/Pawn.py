@@ -34,12 +34,13 @@ class Pawn(Piece):
         return availableMoves
 
     
-    def movePiece(self, x: int, y: int, board):
+    def movePiece(self, x: int, y: int, board: list[list[int | Piece]]) -> bool:
         # check that x,y does not exceed board
         if (x,y) not in self.calcAvailableMoves(board):
-            return
+            return False
         board[self.row][self.col] = -1
         board[x][y] = self
         self.row = x
         self.col = y
         self.firstMove = False
+        return True

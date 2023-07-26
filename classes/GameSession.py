@@ -10,7 +10,8 @@ class GameSession:
         clock = pygame.time.Clock()
         chessBoard: ChessBoard = ChessBoard()
         chessBoard.populateBoard()
-        currentPiece = None
+        currentPiece: None | Piece = None
+        whitesTurn: bool = True
 
         while(run):
             clock.tick(FPS)
@@ -23,11 +24,12 @@ class GameSession:
                     y,x = pygame.mouse.get_pos()
                     x = x // SQUARE_SIZE
                     y = y // SQUARE_SIZE
-                    selectedPiece = chessBoard.board[x][y]
-                    if currentPiece == None and selectedPiece != -1:
+                    selectedPiece: int | Piece = chessBoard.board[x][y]
+                    if currentPiece == None and selectedPiece != -1 and selectedPiece.isWhite == whitesTurn:
                         currentPiece = selectedPiece
                     elif currentPiece != None:
-                        currentPiece.movePiece(x, y, chessBoard.board)
+                        if currentPiece.movePiece(x, y, chessBoard.board):
+                            whitesTurn = not whitesTurn
                         currentPiece = None
             
             chessBoard.drawBoard(self.window)
