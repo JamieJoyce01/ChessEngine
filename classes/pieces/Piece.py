@@ -14,3 +14,5 @@ class Piece:
 
     def drawPiece(self, win) -> None:
         win.blit(self.pieceImg, self.calcSquareCoords(self.row, self.col))
+
+    
