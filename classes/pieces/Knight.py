@@ -9,7 +9,7 @@ class Knight(Piece):
         imgPath: str = "assets/" + self.colour + "/knight.png"
         self.pieceImg = pygame.image.load(imgPath).convert_alpha()
 
-    def calcAvailableMoves(self, board: list[list[int | Piece]]) -> set((int,int)):
+    def calcAvailableMoves(self, board: list[list[int | Piece]]) -> set[int,int]:
         availableMoves = set()
         for i in range(2):
             for twoSquares in (2, -2):
@@ -20,13 +20,3 @@ class Knight(Piece):
                         print(str(self.row)+":", x, str(self.col)+":",y)
                         availableMoves.add((x,y))
         return availableMoves
-    
-    def movePiece(self, x: int, y: int, board: list[list[int | Piece]]) -> bool:
-        moves = self.calcAvailableMoves(board)
-        if (x,y) not in moves:
-            return False
-        board[self.row][self.col] = -1
-        board[x][y] = self
-        self.row = x
-        self.col = y
-        return True
